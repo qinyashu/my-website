@@ -24,14 +24,6 @@
           </div>
         </section>
 
-        <section class="notice" aria-label="最新通知">
-          <span class="notice-icon" aria-hidden="true"></span>
-          <strong>画面纯净</strong>
-          <span class="notice-line"></span>
-          <span>【字幕与水印擦除】正式上线</span>
-          <button type="button">详情 <span aria-hidden="true">›</span></button>
-        </section>
-
         <section class="feature-grid" aria-label="数字人视频功能">
           <article class="feature-card blue is-active" data-mode="图生口播">
             <h2>图生口播</h2>
@@ -79,12 +71,14 @@
           </article>
         </section>
 
-        <section class="creator-strip" aria-label="快速生成">
+        <section class="creator-strip" aria-label="我的资产">
           <div>
-            <span>核心功能</span>
-            <h2>上传一张照片，生成专属数字人视频</h2>
+            <span>我的资产</span>
           </div>
-          <button class="primary-cta" type="button" data-open-generator>开始制作</button>
+          <div class="core-actions" aria-label="我的资产入口">
+            <button class="primary-cta" type="button" data-open-avatar-trainer>定制数字人</button>
+            <button class="primary-cta" type="button" data-open-voice-cloner>克隆声音</button>
+          </div>
         </section>
 
         <section class="tutorials" aria-label="使用教程">
@@ -150,9 +144,9 @@
             <span class="tab-icon home-icon" aria-hidden="true"></span>
             <span>首页</span>
           </button>
-          <button class="tab-item" type="button" data-tab="历史作品">
+          <button class="tab-item" type="button" data-tab="创作记录">
             <span class="tab-icon work-icon" aria-hidden="true"></span>
-            <span>历史作品</span>
+            <span>创作记录</span>
           </button>
           <button class="tab-item" type="button" data-tab="我的">
             <span class="tab-icon mine-icon" aria-hidden="true"></span>
@@ -172,13 +166,6 @@
           <button class="close-sheet" type="button" aria-label="关闭">×</button>
         </header>
 
-        <div class="mode-pills" aria-label="生成模式">
-          <button class="mode-pill is-active" type="button" data-mode="图生口播">口播</button>
-          <button class="mode-pill" type="button" data-mode="图生歌声">歌声</button>
-          <button class="mode-pill" type="button" data-mode="图生舞蹈">舞蹈</button>
-          <button class="mode-pill" type="button" data-mode="视频生口播">视频</button>
-        </div>
-
         <label class="uploader" for="avatarFile">
           <input id="avatarFile" type="file" accept="image/*">
           <img id="avatarPreview" alt="已上传照片预览" hidden>
@@ -188,16 +175,117 @@
           <small class="upload-hint">JPG / PNG，建议清晰半身照</small>
         </label>
 
-        <label class="script-field" for="scriptText">
-          <span>口播文案</span>
+        <section class="avatar-select-field" id="avatarSelectField" hidden aria-label="选择我的数字人">
+          <label for="avatarSelectInput">选择我的数字人</label>
+          <input id="avatarSelectInput" type="text" placeholder="点击选择已录好的数字人" readonly>
+          <div class="avatar-select-list" id="avatarSelectList" hidden></div>
+        </section>
+
+        <label class="script-field" id="scriptField" for="scriptText">
+          <span id="scriptFieldLabel">口播文案</span>
           <textarea id="scriptText" rows="4">大家好，我是你的 AI 数字人。上传一张照片，就能快速生成专属口播视频。</textarea>
         </label>
 
-        <div class="voice-row" aria-label="声音风格">
-          <button class="voice-chip is-active" type="button">清晰女声</button>
-          <button class="voice-chip" type="button">沉稳男声</button>
-          <button class="voice-chip" type="button">活力主播</button>
-        </div>
+        <section class="voice-panel" id="voicePanel" aria-label="选择音色">
+          <div class="setting-heading">
+            <span>选择音色</span>
+            <strong id="selectedVoiceName">清晰女声</strong>
+          </div>
+          <div class="voice-grid" aria-label="选择音色">
+            <button class="voice-option clone-option" type="button" data-voice="我的克隆音色" data-tts-voice="clone" data-clone-placeholder="true">
+              <span class="clone-portrait" aria-hidden="true"></span>
+              <strong>我的克隆音色</strong>
+            </button>
+            <button class="voice-option is-active" type="button" data-voice="清晰女声" data-tts-voice="zh-CN-XiaoxiaoNeural">
+              <span class="voice-portrait portrait-soft" aria-hidden="true"></span>
+              <strong>清晰女声</strong>
+            </button>
+            <button class="voice-option" type="button" data-voice="沉稳男声" data-tts-voice="zh-CN-YunyangNeural">
+              <span class="voice-portrait portrait-calm" aria-hidden="true"></span>
+              <strong>沉稳男声</strong>
+            </button>
+            <button class="voice-option" type="button" data-voice="活力主播" data-tts-voice="zh-CN-YunxiNeural">
+              <span class="voice-portrait portrait-bright" aria-hidden="true"></span>
+              <strong>活力主播</strong>
+            </button>
+            <button class="voice-option" type="button" data-voice="温柔女友" data-tts-voice="zh-CN-XiaohanNeural">
+              <span class="voice-portrait portrait-sweet" aria-hidden="true"></span>
+              <strong>温柔女友</strong>
+            </button>
+          </div>
+        </section>
+
+        <section class="audio-link-field" id="audioLinkField" hidden aria-label="音频链接">
+          <label for="audioLinkInput">音频链接</label>
+          <input id="audioLinkInput" type="url" inputmode="url" placeholder="粘贴音乐或音频链接">
+          <audio id="audioPreview" controls hidden></audio>
+          <p id="audioExtractStatus">粘贴音频链接后将直接用于生成唱歌视频</p>
+        </section>
+
+        <section class="motion-field" id="motionField" hidden aria-label="动作迁移视频">
+          <label class="motion-uploader" for="motionVideoFile">
+            <input id="motionVideoFile" type="file" accept="video/*">
+            <video id="motionVideoPreview" muted playsinline hidden></video>
+            <span class="upload-mark" aria-hidden="true"></span>
+            <strong>上传跳舞视频</strong>
+            <small>MP4 / MOV，建议 2-20 秒，人物动作清晰</small>
+          </label>
+          <p id="motionStatus">上传跳舞视频后，图片人物会学习视频动作并生成舞蹈视频</p>
+        </section>
+
+        <section class="settings-panel" aria-label="视频生成设置">
+          <div class="setting-group">
+            <div class="setting-heading">
+              <span>视频比例</span>
+              <strong id="selectedRatioLabel">9:16</strong>
+            </div>
+            <div class="ratio-grid" aria-label="选择视频比例">
+              <button class="ratio-option is-active" type="button" data-ratio="9:16">
+                <span class="ratio-icon ratio-9-16" aria-hidden="true"></span>
+                <strong>9:16</strong>
+              </button>
+              <button class="ratio-option" type="button" data-ratio="3:4">
+                <span class="ratio-icon ratio-3-4" aria-hidden="true"></span>
+                <strong>3:4</strong>
+              </button>
+              <button class="ratio-option" type="button" data-ratio="1:1">
+                <span class="ratio-icon ratio-1-1" aria-hidden="true"></span>
+                <strong>1:1</strong>
+              </button>
+              <button class="ratio-option" type="button" data-ratio="4:3">
+                <span class="ratio-icon ratio-4-3" aria-hidden="true"></span>
+                <strong>4:3</strong>
+              </button>
+              <button class="ratio-option" type="button" data-ratio="16:9">
+                <span class="ratio-icon ratio-16-9" aria-hidden="true"></span>
+                <strong>16:9</strong>
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <div class="setting-heading">
+              <span>视频时长</span>
+              <strong id="selectedDurationLabel">5s</strong>
+            </div>
+            <div class="segmented-row" aria-label="选择视频时长">
+              <button class="setting-choice duration-choice is-active" type="button" data-duration="5">5s</button>
+              <button class="setting-choice duration-choice" type="button" data-duration="10">10s</button>
+              <button class="setting-choice duration-choice" type="button" data-duration="auto">自定义</button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <div class="setting-heading">
+              <span>视频分辨率</span>
+              <strong id="selectedResolutionLabel">720P</strong>
+            </div>
+            <div class="segmented-row" aria-label="选择视频分辨率">
+              <button class="setting-choice resolution-choice is-active" type="button" data-resolution="720P">720P</button>
+              <button class="setting-choice resolution-choice premium-choice" type="button" data-resolution="1080P">1080P</button>
+            </div>
+          </div>
+        </section>
 
         <button class="generate-button" type="button">开始生成</button>
 
@@ -217,22 +305,347 @@
             <a id="downloadVideo" class="download-button">下载视频</a>
             <button id="auditionVoice" class="secondary-button" type="button">试听配音</button>
           </div>
-          <p>生成的视频已保存到本地历史作品。</p>
+          <p>生成的视频已保存到本地创作记录。</p>
         </section>
 
         <p class="sheet-status" aria-live="polite"></p>
       </section>
     </div>
 
+    <div class="voice-clone-backdrop" hidden>
+      <section class="voice-clone-sheet" role="dialog" aria-modal="true" aria-labelledby="voiceCloneTitle">
+        <button class="close-voice-clone" type="button" aria-label="关闭">×</button>
+        <header class="voice-clone-header">
+          <span class="voice-clone-spark" aria-hidden="true"></span>
+          <h2 id="voiceCloneTitle">创建新音色</h2>
+        </header>
+
+        <label class="voice-clone-field" for="voiceCloneName">
+          <span>音色名称</span>
+          <input id="voiceCloneName" type="text" placeholder="例如：我的声音">
+        </label>
+
+        <section class="voice-source-area" aria-label="获取音频">
+          <span>获取音频</span>
+          <div class="voice-source-switch" role="group" aria-label="获取音频方式">
+            <button class="voice-source-button is-active" type="button" data-voice-source="upload">
+              <span class="voice-upload-glyph" aria-hidden="true"></span>
+              上传文件
+            </button>
+            <button class="voice-source-button" type="button" data-voice-source="record">
+              <span class="voice-mic-glyph" aria-hidden="true"></span>
+              网页录音
+            </button>
+          </div>
+        </section>
+
+        <label class="voice-audio-uploader" id="voiceUploadPanel" for="voiceCloneFile">
+          <input id="voiceCloneFile" type="file" accept="audio/*,.mp3,.wav,.m4a">
+          <span class="voice-audio-upload-icon" aria-hidden="true"></span>
+          <strong>点击上传音频文件</strong>
+          <small>支持 MP3、WAV、M4A 等格式<br>建议 10-60 秒清晰人声</small>
+        </label>
+
+        <section class="voice-record-panel" id="voiceRecordPanel" hidden>
+          <button class="voice-record-button" type="button">开始录音</button>
+          <p>建议在安静环境录制 10-60 秒清晰人声。</p>
+        </section>
+
+        <audio id="voiceClonePreview" controls hidden></audio>
+        <p class="voice-clone-status" aria-live="polite"></p>
+
+        <button class="voice-create-button" type="button">
+          <span aria-hidden="true"></span>
+          创建音色
+        </button>
+      </section>
+    </div>
+
+    <div class="trainer-backdrop" hidden>
+      <section class="trainer-sheet" role="dialog" aria-modal="true" aria-labelledby="trainerTitle">
+        <button class="close-trainer" type="button" aria-label="关闭">×</button>
+        <header class="trainer-header">
+          <h2 id="trainerTitle">训练数字人模型</h2>
+          <p>上传图片或视频，AI 将自动训练您的专属数字人形象</p>
+        </header>
+
+        <label class="trainer-uploader" for="trainerFile">
+          <input id="trainerFile" type="file" accept="image/*,video/*">
+          <img id="trainerImagePreview" alt="数字人素材预览" hidden>
+          <video id="trainerVideoPreview" muted playsinline hidden></video>
+          <span class="trainer-upload-icon" aria-hidden="true"></span>
+          <strong>点击上传图片或视频</strong>
+          <small>支持 JPG、PNG、MP4、WebM、MOV 格式</small>
+        </label>
+
+        <label class="trainer-field" for="trainerName">
+          <span>名称 *</span>
+          <input id="trainerName" type="text" placeholder="为您的数字人起个名字">
+        </label>
+
+        <label class="trainer-field" for="trainerNote">
+          <span>备注（可选）</span>
+          <textarea id="trainerNote" rows="4" placeholder="添加一些描述信息..."></textarea>
+        </label>
+
+        <p class="trainer-status" aria-live="polite"></p>
+
+        <div class="trainer-actions">
+          <button class="trainer-cancel" type="button">取消</button>
+          <button class="trainer-start" type="button">
+            <span aria-hidden="true"></span>
+            开始训练
+          </button>
+        </div>
+      </section>
+    </div>
+
     <div class="history-backdrop" hidden>
       <section class="history-sheet" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
         <header class="history-header">
-          <h2 id="historyTitle">历史作品</h2>
+          <button class="history-back-home" type="button">返回首页</button>
+          <h2 id="historyTitle">创作记录</h2>
           <button class="close-history" type="button" aria-label="关闭">×</button>
+          <p><span></span> 空闲 <i></i> 队列中有 0 个任务</p>
         </header>
         <div id="historyList" class="history-list"></div>
       </section>
     </div>
+
+    <section class="mine-page" hidden aria-label="我的">
+      <div class="mine-hero">
+        <button class="mine-menu" type="button" aria-label="菜单">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <button class="mine-login" type="button">
+          <span class="mine-logo" aria-hidden="true">Z</span>
+          <strong>登录/注册</strong>
+        </button>
+      </div>
+
+      <div class="mine-list" aria-label="我的功能">
+        <button class="mine-row" type="button" data-mine-action="我的积分">
+          <span class="mine-row-icon diamond" aria-hidden="true"></span>
+          <strong>我的积分</strong>
+          <em></em>
+        </button>
+        <button class="mine-row" type="button" data-mine-action="密钥激活">
+          <span class="mine-row-icon key" aria-hidden="true"></span>
+          <strong>密钥激活</strong>
+          <em></em>
+        </button>
+        <button class="mine-row" type="button" data-mine-action="在线客服">
+          <span class="mine-row-icon service" aria-hidden="true"></span>
+          <strong>在线客服</strong>
+          <em></em>
+        </button>
+        <button class="mine-row" type="button" data-mine-action="用户协议">
+          <span class="mine-row-icon agreement" aria-hidden="true"></span>
+          <strong>用户协议</strong>
+          <em></em>
+        </button>
+        <button class="mine-row" type="button" data-mine-action="隐私政策">
+          <span class="mine-row-icon privacy" aria-hidden="true"></span>
+          <strong>隐私政策</strong>
+          <em></em>
+        </button>
+        <button class="mine-row" type="button" data-mine-action="认识我们">
+          <span class="mine-row-icon about" aria-hidden="true"></span>
+          <strong>认识我们</strong>
+          <em></em>
+        </button>
+        <button class="mine-row" type="button" data-mine-action="当前版本">
+          <span class="mine-row-icon version" aria-hidden="true"></span>
+          <strong>当前版本</strong>
+          <small>v7.1.9</small>
+          <em></em>
+        </button>
+      </div>
+    </section>
+
+    <section class="auth-page" hidden aria-label="登录注册">
+      <button class="auth-back" type="button" aria-label="返回我的">返回</button>
+      <label class="auth-logo auth-avatar-picker" aria-label="选择头像">
+        <input id="authAvatarInput" type="file" accept="image/*">
+        <img id="authAvatarPreview" alt="用户头像" hidden>
+      </label>
+
+      <div class="auth-tabs" role="tablist" aria-label="登录注册切换">
+        <button class="auth-tab is-active" type="button" role="tab" aria-selected="true" data-auth-tab="login">登录</button>
+        <button class="auth-tab" type="button" role="tab" aria-selected="false" data-auth-tab="register">注册</button>
+      </div>
+
+      <form class="auth-form" data-auth-panel="login">
+        <label class="auth-phone-field">
+          <span>+86</span>
+          <input type="tel" inputmode="tel" placeholder="填写手机号" autocomplete="tel" data-auth-phone>
+        </label>
+
+        <label class="auth-field auth-password-field">
+          <input type="password" placeholder="输入密码登录或指纹登录" autocomplete="current-password" data-auth-password>
+          <button class="auth-eye" type="button" aria-label="显示或隐藏密码"></button>
+        </label>
+
+        <button class="auth-link" type="button">忘记密码?</button>
+
+        <label class="auth-agree">
+          <input type="checkbox" data-auth-agree>
+          <span></span>
+          <strong>我已阅读同意《用户协议》和《隐私政策》</strong>
+        </label>
+
+        <button class="auth-submit" type="submit">
+          <span class="auth-lock" aria-hidden="true"></span>
+          密码登录
+        </button>
+
+        <button class="auth-other" type="button">其他方式登录</button>
+      </form>
+
+      <form class="auth-form" data-auth-panel="register" hidden>
+        <label class="auth-phone-field">
+          <span>+86</span>
+          <input type="tel" inputmode="tel" placeholder="填写手机号" autocomplete="tel" data-auth-phone>
+        </label>
+
+        <label class="auth-field auth-code-field">
+          <input type="text" inputmode="numeric" placeholder="请输入验证码" autocomplete="one-time-code" data-auth-code>
+          <button class="auth-code-button" type="button">获取验证码</button>
+        </label>
+
+        <label class="auth-field">
+          <input type="password" placeholder="密码6-16位，且须包含字母、数字、符号两种组合" autocomplete="new-password" data-auth-password>
+        </label>
+
+        <label class="auth-field">
+          <input type="text" placeholder="输入邀请码(8位字母数字组合)" data-auth-invite>
+        </label>
+
+        <label class="auth-agree">
+          <input type="checkbox" data-auth-agree>
+          <span></span>
+          <strong>我已阅读同意《用户协议》和《隐私政策》</strong>
+        </label>
+
+        <button class="auth-submit" type="submit">立即注册</button>
+      </form>
+    </section>
+
+    <div class="legal-backdrop" hidden>
+      <section class="legal-sheet" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+        <header class="legal-header">
+          <span class="legal-badge" aria-hidden="true"></span>
+          <h2 id="legalTitle">用户协议</h2>
+          <button class="close-legal" type="button" aria-label="关闭">×</button>
+        </header>
+        <div id="legalContent" class="legal-content"></div>
+      </section>
+    </div>
+
+    <section class="support-page" hidden aria-label="在线客服">
+      <header class="support-header">
+        <button class="support-back" type="button" aria-label="返回我的"></button>
+        <h2>在线客服</h2>
+        <button class="support-refresh" type="button" aria-label="刷新"></button>
+      </header>
+
+      <form class="support-form">
+        <label class="support-field">
+          <strong>问题分类</strong>
+          <input id="supportTitle" type="text" placeholder="请输入标题">
+        </label>
+
+        <label class="support-field">
+          <strong>我要反馈</strong>
+          <textarea id="supportContent" rows="6" placeholder="请输入内容"></textarea>
+        </label>
+
+        <section class="support-upload-section" aria-label="截图上传">
+          <strong>截图上传</strong>
+          <p>图片最多上传三张，每张不能超过200KB</p>
+          <div class="support-upload-grid" id="supportUploadGrid">
+            <label class="support-upload-button" aria-label="上传截图">
+              <input id="supportImages" type="file" accept="image/*" multiple>
+              <span aria-hidden="true"></span>
+            </label>
+          </div>
+        </section>
+
+        <div class="support-submit-bar">
+          <button class="support-submit" type="submit">提交反馈</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="points-page" hidden aria-label="我的积分">
+      <header class="points-header">
+        <button class="points-back" type="button" aria-label="返回我的"></button>
+        <h2>我的积分</h2>
+      </header>
+
+      <section class="points-balance-card">
+        <span>我的积分</span>
+        <strong><b id="pointsBalance">0</b><i aria-hidden="true"></i></strong>
+        <p>当前剩余可用于生成视频的积分</p>
+      </section>
+
+      <section class="points-usage-card">
+        <header>
+          <h3>生成视频积分消耗</h3>
+          <span>每次生成扣除</span>
+        </header>
+        <div class="points-usage-list">
+          <p><span>图生口播视频</span><strong>10 积分/次</strong></p>
+          <p><span>图生唱歌视频</span><strong>20 积分/次</strong></p>
+          <p><span>图生跳舞视频</span><strong>20 积分/次</strong></p>
+          <p><span>视频生口播视频</span><strong>15 积分/次</strong></p>
+        </div>
+      </section>
+
+      <section class="points-activate-card">
+        <h3>兑换积分</h3>
+        <label>
+          <input id="pointsCodeInput" type="text" maxlength="20" placeholder="请输入十位CDK激活码，请注意区分大小写">
+        </label>
+        <button id="pointsActivateButton" type="button">立即激活</button>
+      </section>
+
+      <section class="points-notice">
+        <h3>注意事项</h3>
+        <p>1. 激活码兑换后立即获得对应积分，可用于生成数字人视频。</p>
+        <p>2. 每次点击生成视频时，会按功能类型扣除对应积分。</p>
+        <p>3. 积分仅用于本软件内创作服务，暂不支持提现或转让。</p>
+      </section>
+    </section>
+
+    <section class="key-page" hidden aria-label="密钥激活">
+      <header class="key-header">
+        <button class="key-back" type="button" aria-label="返回我的"></button>
+        <h2>密钥激活</h2>
+      </header>
+
+      <section class="key-status-card">
+        <span>当前状态</span>
+        <strong id="keyStatusText">未激活</strong>
+        <p id="keyStatusHint">输入 CDK 激活码后可开通对应会员服务。</p>
+      </section>
+
+      <section class="key-activate-card">
+        <label>
+          <input id="keyCodeInput" type="text" maxlength="20" placeholder="请输入十位CDK激活码，请注意区分大小写">
+        </label>
+        <button id="keyActivateButton" type="button">立即激活</button>
+      </section>
+
+      <section class="key-notice">
+        <h3>注意事项</h3>
+        <p>1. 激活码兑换后立即获得对应积分，可用于生成数字人视频。</p>
+        <p>2. 每次点击生成视频时，会按功能类型扣除对应积分。</p>
+        <p>3. 积分仅用于本软件内创作服务，暂不支持提现或转让。</p>
+      </section>
+    </section>
 
     <div class="toast" role="status" aria-live="polite" hidden></div>
 
